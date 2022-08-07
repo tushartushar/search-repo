@@ -6,16 +6,8 @@ import requests
 import argparse
 
 URL = 'https://api.github.com/graphql'
-# API_TOKEN = "51ec4131199c6fa566acd848c82a77958327d308"
 MIN_REPO_SIZE = "100"  # in KBs
-# filename = 'repos_java_Jul7_2022.csv'
-
-# cursor = ""
 PAGE_LIMIT = 99  # maximum permitted is 100 but keep it 99 or below to satisfy 1000 node Pagination limit
-
-# one_year_old_date = (datetime.datetime.now().date() - datetime.timedelta(days=1 * 365))
-# start_date = one_year_old_date
-# start_date = datetime.date(2020, 4, 28)
 
 count = 1
 duplicate_count = 0
@@ -183,9 +175,10 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def search_repo(start_date, out_file, api_token, stars, lang):
+def search_repo(start_date, out_file, api_token, stars, lang, verbose=False):
     _my_print('Starting the repository search ...')
     current_date = start_date
+    is_verbose = verbose
     while not current_date > datetime.datetime.now().date():
         _my_print("Processing search for date: " + str(current_date))
         possible = True
