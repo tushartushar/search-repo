@@ -16,7 +16,7 @@ local_name_with_owner_list = []
 
 failed_dates = []
 repo_count_exceed_case_dates = []
-is_verbose = False
+
 
 def _my_print(msg):
     if is_verbose:
@@ -37,17 +37,18 @@ def _extract_name_with_owner_list(data):
                         edge['node']['pushedAt'] is not None:
                     if edge['node']['primaryLanguage']['name'] is not None:
                         local_name_with_owner_list.append(str(edge['node']['nameWithOwner']) + " " +
-                                                      str(edge['node']['primaryLanguage']['name']) + " "
-                                                      + str(edge['node']['pushedAt']))
+                                                          str(edge['node']['primaryLanguage']['name']) + " "
+                                                          + str(edge['node']['pushedAt']))
                         name_with_owner_list.append(str(edge['node']['nameWithOwner']) + " " +
-                                        str(edge['node']['primaryLanguage']['name']) + " " +
-                                        str(edge['node']['pushedAt']))
+                                                    str(edge['node']['primaryLanguage']['name']) + " " +
+                                                    str(edge['node']['pushedAt']))
 
 
 # lang = 'Java' or 'Csharp'
 def _get_json_query(repo_size, current_date, after_cursor, stars=0, lang='Java'):
     json_query = {'query': """{
-                    search(query: "stars:>=""" + str(stars) + " language:""" + lang + """ size:""" + repo_size + """ pushed:""" + str(
+                    search(query: "stars:>=""" + str(
+        stars) + " language:""" + lang + """ size:""" + repo_size + """ pushed:""" + str(
         current_date) + """", type: REPOSITORY, first:  """ + str(PAGE_LIMIT)
                            + str(after_cursor) + """) {
                       edges {
@@ -119,7 +120,7 @@ def _iterate_over_pages_and_append_file(out_file, api_token, stars, lang, size, 
                     duration = (datetime.datetime.strptime(
                         rate_limit_info['resetAt'], '%Y-%m-%dT%H:%M:%SZ') -
                                 datetime.datetime.utcnow()).total_seconds() + 1
-                    _my_print("Limit exhausted. Sleep for "+ str(duration) + " secs")
+                    _my_print("Limit exhausted. Sleep for " + str(duration) + " secs")
                     time.sleep(duration)
                     continue
 
@@ -165,7 +166,7 @@ def parse_arguments():
     parser.add_argument('--out-file', dest='out_file', required=True,
                         help='Output file path')
     parser.add_argument('--start-date', dest='start_date', required=True,
-        type=lambda s: datetime.datetime.strptime(s, '%d-%m-%Y'),
+                        type=lambda s: datetime.datetime.strptime(s, '%d-%m-%Y'),
                         help='Start date for search in dd-mm-yyyy')
     parser.add_argument('--lang', dest='lang', default='Java',
                         help='Primary programming language of the repositories')
@@ -176,10 +177,10 @@ def parse_arguments():
 
 
 def search_repo(start_date, out_file, api_token, stars, lang, verbose=False):
-    _my_print('Starting the repository search ...')
     global is_verbose
-    current_date = start_date
     is_verbose = verbose
+    _my_print('Starting the repository search ...')
+    current_date = start_date
     while not current_date > datetime.datetime.now().date():
         _my_print("Processing search for date: " + str(current_date))
         possible = True
@@ -195,4 +196,3 @@ if __name__ == "__main__":
     global is_verbose
     is_verbose = args.verbose
     search_repo(args.start_date.date(), args.out_file, args.api_token, args.stars, args.lang)
-
