@@ -176,7 +176,7 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def search_repo(start_date, out_file, api_token, stars, lang, verbose=False):
+def search_repo(start_date, out_file, api_token, stars, lang, verbose):
     global is_verbose
     is_verbose = verbose
     _my_print('Starting the repository search ...')
