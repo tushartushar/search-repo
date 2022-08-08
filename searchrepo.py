@@ -16,7 +16,7 @@ local_name_with_owner_list = []
 
 failed_dates = []
 repo_count_exceed_case_dates = []
-
+is_verbose = False
 
 def _my_print(msg):
     if is_verbose:
@@ -177,6 +177,7 @@ def parse_arguments():
 
 def search_repo(start_date, out_file, api_token, stars, lang, verbose=False):
     _my_print('Starting the repository search ...')
+    global is_verbose
     current_date = start_date
     is_verbose = verbose
     while not current_date > datetime.datetime.now().date():

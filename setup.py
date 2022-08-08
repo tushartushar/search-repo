@@ -29,7 +29,7 @@ setup(
     long_description_content_type='text/markdown',
     author='Tushar Sharma',
     author_email='000.tushar@gmail.com',
-    version='1.0.3',
+    version='1.0.4',
     packages=find_packages('.'),
     url='https://github.com/tushartushar/search-repo',
     license='Apache License',
